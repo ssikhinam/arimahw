@@ -1,0 +1,96 @@
+---
+title: "ARIMA HW - SRIVEN SIKHINAM"
+output: html_notebook
+---
+
+Dataset = auscafe
+Monthly Expenditure on eating out in Australia 
+```{r}
+library(fpp)
+library(fpp2)
+library(forecast)
+```
+
+```{r}
+library(forecast)
+df = ts(auscafe)
+plot(df)
+```
+```{r}
+ndiffs(df)
+tsdisplay(df)
+df1 = diff(df, differences = 1)
+plot(df1)
+```
+
+```{r}
+tsdisplay(df1)
+```
+
+```{r}
+auto_fit=auto.arima(df, trace = TRUE, stepwise = FALSE)
+auto_fit
+```
+
+```{r}
+attributes(auto_fit)
+```
+
+```{r}
+plot(forecast(auto_fit, h=5, level=c(99.5)))
+```
+```{r}
+#Residual Analysis
+Acf(auto_fit$residuals)
+```
+```{r}
+Box.test(residuals(auto_fit),lag = 20, type="Ljung")
+```
+
+```{r}
+plot.ts(residuals(auto_fit))
+```
+
+```{r}
+hist(auto_fit$residuals)
+```
+```{r}
+tsdiag(auto_fit)
+```
+```{r}
+#Seasonal Data
+plot(euretail)
+```
+```{r}
+nsdiffs(euretail)
+ndiffs(euretail)
+ndiffs((diff(euretail,4)))
+```
+```{r}
+tsdisplay(diff(diff(euretail,4)))
+```
+
+```{r}
+fit3 = auto.arima(euretail,trace=TRUE, stepwise = FALSE)
+```
+```{r}
+fit3
+```
+```{r}
+#Residual Analysis
+Acf(fit3$residuals)
+```
+
+```{r}
+Box.test(residuals(fit3),lag = 20, type = "Ljung")
+```
+```{r}
+plot.ts(residuals(fit3))
+```
+```{r}
+hist(fit3$residuals)
+```
+
+```{r}
+tsdiag(fit3)
+```
